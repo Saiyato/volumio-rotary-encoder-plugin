@@ -4,8 +4,8 @@ Volumio 2 plugin to configure two simple rotary encoders.
 ## Quick start
 1. Connect your rotary encoder(s) and write down the pins you have used
 
-CLK = pin A
-DT = pin B
+* CLK = pin A
+* DT = pin B
 
 ![Alt text](/images/rotary_encoder.jpg?raw=true "Rotary encoder")
 
