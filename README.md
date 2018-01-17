@@ -13,8 +13,8 @@ The rest of the pins is self explanatory.
 
 2. Install the plugin
 3. Configure your encoder(s) using the pins you wrote down.
-  * Configure CLK to 0 (zero) to disable the encoder
-  * Configure SW to 0 (zero) to disable the (push) button on the encoder
+   * Configure CLK to 0 (zero) to disable the encoder
+   * Configure SW to 0 (zero) to disable the (push) button on the encoder
 4. Choose your logic (KY040 or gray coding)
 
 ![Alt text](/images/rotary_logic.png?raw=true "Rotary encoder")
