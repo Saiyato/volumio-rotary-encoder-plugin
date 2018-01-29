@@ -40,8 +40,7 @@ function RotaryEncoder(pin_CLK, pin_DT, pin_SW, encoderType) {
 		}
 		this.dt_value = value;
 		
-		console.log('Encoding type: ' + encoderType);
-		
+		//console.log('Encoding type: ' + encoderType);		
 		switch(encoderType)
 		{
 			case rotaryLogic.DEFAULT:
@@ -72,7 +71,7 @@ RotaryEncoder.prototype = EventEmitter.prototype;
 
 RotaryEncoder.prototype.ky040Tick = function ky040Tick() {
 	const { clk_value, dt_value } = this;
-	console.log('Using KY040 logic');
+	//console.log('Using KY040 logic');
 	
 	if (clk_value == dt_value && (clk_value != LAST_CLK || dt_value != LAST_DT) && clk_value == 0)	
 	{
@@ -102,7 +101,7 @@ RotaryEncoder.prototype.defaultTick = function defaultTick()
 		]
 	*/
 	const { clk_value, dt_value } = this;
-	console.log('Using gray code logic');
+	//console.log('Using gray code logic');
 	
 	const MSB = clk_value;
 	const LSB = dt_value;
