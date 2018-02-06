@@ -6,8 +6,8 @@ var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
 
 //const rotaryLogic = Object.freeze({"GRAY": 0, "KY040": 1 });
-const detentActionType = Object.freeze({"VOLUME": 0, "PREVNEXT": 1, "SEEK": 2 });
-const buttonActionType = Object.freeze({"PLAY": 0, "PAUSE": 1, "PLAYPAUSE": 2, "STOP": 3, "REPEAT": 4, "RANDOM": 5, "CLEARQUEUE": 6, "MUTE": 7, "UNMUTE": 8, "TOGGLEMUTE": 9 });
+const detentActionType = Object.freeze({ "NO_ACTION": 0, "VOLUME": 1, "PREVNEXT": 2, "SEEK": 3 });
+const buttonActionType = Object.freeze({ "NO_ACTION": 0, "PLAY": 1, "PAUSE": 2, "PLAYPAUSE": 3, "STOP": 4, "REPEAT": 5, "RANDOM": 6, "CLEARQUEUE": 7, "MUTE": 8, "UNMUTE": 9, "TOGGLEMUTE": 10 });
 
 var rotaryEncoder = require('onoff-rotary');
 
@@ -273,6 +273,10 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 			if(self.config.get('enable_debug_logging'))
 				self.logger.info('[Rotary encoder] Encoder #1 rotated right');
 							
+			if(self.config.get('first_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+			{
+				self.logger.info('[Rotary encoder] Encoder #1 rotated right');
+			}
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.VOLUME)
 			{
 				//socket.emit('volume', '+');
@@ -294,6 +298,10 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 			if(self.config.get('enable_debug_logging'))
 				self.logger.info('[Rotary encoder] Encoder #1 rotated left');
 			
+			if(self.config.get('first_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+			{
+				self.logger.info('[Rotary encoder] Encoder #1 rotated left');
+			}
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.VOLUME)
 			{
 				//socket.emit('volume', '-');
@@ -319,6 +327,10 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 				
 			if(pressState == 0)
 			{
+				if(self.config.get('first_encoder_buttonActionType') == buttonActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+				{
+					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
+				}
 				if(self.config.get('first_encoder_buttonActionType') != buttonActionType.TOGGLEMUTE)
 				{
 					//socket.emit(self.determineAPICommand(self.config.get('first_encoder_buttonActionType')));
@@ -352,7 +364,11 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 		{
 			if(self.config.get('enable_debug_logging') == true)
 				self.logger.info('[Rotary encoder] Encoder #2 rotated right');
-							
+			
+			if(self.config.get('second_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+			{
+				self.logger.info('[Rotary encoder] Encoder #2 rotated right');
+			}
 			if(self.config.get('second_encoder_detentActionType') == detentActionType.VOLUME)
 			{
 				//socket.emit('volume', '+');
@@ -374,6 +390,10 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 			if(self.config.get('enable_debug_logging'))
 				self.logger.info('[Rotary encoder] Encoder #2 rotated left');
 			
+			if(self.config.get('second_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+			{
+				self.logger.info('[Rotary encoder] Encoder #2 rotated left');
+			}
 			if(self.config.get('second_encoder_detentActionType') == detentActionType.VOLUME)
 			{
 				//socket.emit('volume', '-');
@@ -398,7 +418,11 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 					self.logger.info('[Rotary encoder] Encoder #2 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
 				
 			if(pressState == 0)
-			{					
+			{
+				if(self.config.get('second_encoder_buttonActionType') == buttonActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+				{
+					self.logger.info('[Rotary encoder] Encoder #2 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
+				}				
 				if(self.config.get('second_encoder_buttonActionType') != buttonActionType.TOGGLEMUTE)
 				{
 					//socket.emit(self.determineAPICommand(self.config.get('second_encoder_buttonActionType')));
