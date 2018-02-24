@@ -286,7 +286,7 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 				
 				self.executeCommand('seek plus');
 			}
-			else
+			else if(self.config.get('first_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('next');
 				self.executeCommand('next');
@@ -310,7 +310,7 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 			{
 				self.executeCommand('seek minus');
 			}
-			else
+			else if(self.config.get('first_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('prev');
 				self.executeCommand('previous');	
@@ -378,7 +378,7 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 				
 				self.executeCommand('seek plus');
 			}
-			else
+			else if(self.config.get('second_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('next');
 				self.executeCommand('next');
@@ -402,7 +402,7 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 			{
 				self.executeCommand('seek minus');
 			}
-			else
+			else if(self.config.get('second_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('prev');
 				self.executeCommand('previous');	
