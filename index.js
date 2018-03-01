@@ -5,7 +5,6 @@ var fs=require('fs-extra');
 var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
 
-//const rotaryLogic = Object.freeze({"GRAY": 0, "KY040": 1 });
 const detentActionType = Object.freeze({ "NO_ACTION": 0, "VOLUME": 1, "PREVNEXT": 2, "SEEK": 3 });
 const buttonActionType = Object.freeze({ "NO_ACTION": 0, "PLAY": 1, "PAUSE": 2, "PLAYPAUSE": 3, "STOP": 4, "REPEAT": 5, "RANDOM": 6, "CLEARQUEUE": 7, "MUTE": 8, "UNMUTE": 9, "TOGGLEMUTE": 10 });
 
@@ -287,7 +286,7 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 				
 				self.executeCommand('seek plus');
 			}
-			else
+			else if(self.config.get('first_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('next');
 				self.executeCommand('next');
@@ -311,7 +310,7 @@ rotaryencoder.prototype.constructFirstEncoder = function (initialize = false)
 			{
 				self.executeCommand('seek minus');
 			}
-			else
+			else if(self.config.get('first_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('prev');
 				self.executeCommand('previous');	
@@ -379,7 +378,7 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 				
 				self.executeCommand('seek plus');
 			}
-			else
+			else if(self.config.get('second_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('next');
 				self.executeCommand('next');
@@ -403,7 +402,7 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 			{
 				self.executeCommand('seek minus');
 			}
-			else
+			else if(self.config.get('second_encoder_detentActionType') == detentActionType.PREVNEXT)
 			{
 				//socket.emit('prev');
 				self.executeCommand('previous');	
@@ -438,6 +437,32 @@ rotaryencoder.prototype.constructSecondEncoder = function (initialize = false)
 	}
 };
 
+rotaryencoder.prototype.destroyFirstEncoder = function ()
+{
+	var self = this;
+	try
+	{
+		this.firstEncoder.destroy(self.config.get('second_encoder_CLK'), self.config.get('second_encoder_DT'), self.config.get('second_encoder_SW'), self.config.get('second_encoder_encoding'));
+	}
+	catch (ex)
+	{
+		self.logger.info('Could not deinit rotary encoder #1 with error: ' + ex);
+	}
+};
+
+rotaryencoder.prototype.destroySecondEncoder = function ()
+{
+	var self = this;
+	try
+	{
+		this.secondEncoder.destroy(self.config.get('second_encoder_CLK'), self.config.get('second_encoder_DT'), self.config.get('second_encoder_SW'), self.config.get('second_encoder_encoding'));
+	}
+	catch (ex)
+	{
+		self.logger.info('Could not deinit rotary encoder #2 with error: ' + ex);
+	}
+};
+
 rotaryencoder.prototype.executeCommand = function (cmd)
 {
 	var self = this;
@@ -457,6 +482,8 @@ rotaryencoder.prototype.updateFirstEncoder = function (data)
 {
 	var self = this;
 	var defer=libQ.defer();
+
+	self.destroyFirstEncoder();
 
 	self.config.set('first_encoder_CLK', parseInt(data['first_encoder_CLK']));
 	self.config.set('first_encoder_DT', parseInt(data['first_encoder_DT']));
@@ -479,6 +506,8 @@ rotaryencoder.prototype.updateSecondEncoder = function (data)
 {
 	var self = this;
 	var defer=libQ.defer();
+
+	self.destroySecondEncoder();
 
 	self.config.set('second_encoder_CLK', parseInt(data['second_encoder_CLK']));
 	self.config.set('second_encoder_DT', parseInt(data['second_encoder_DT']));
