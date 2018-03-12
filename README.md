@@ -1,6 +1,19 @@
 # volumio-rotary-encoder-plugin
 Volumio 2 plugin to configure two simple rotary encoders.
 
+## Lazy installation of unsanctioned versions
+
+1. SSH into server
+2. Execute the below command:
+```
+sudo wget -O volumio_installer.sh https://raw.githubusercontent.com/Saiyato/volumio-rotary-encoder-plugin/master/volumio_installer.sh
+```
+This will download the installation script.
+3. Execute the script (DO NOT USE sudo!) you've just downloaded using the below command:
+```
+sh volumio_installer.sh
+```
+
 ## Quick start
 1. Connect your rotary encoder(s) and write down the pins you have used
 
