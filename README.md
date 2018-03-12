@@ -8,6 +8,7 @@ Volumio 2 plugin to configure two simple rotary encoders.
 sudo wget -O volumio_install_from_zip.sh https://raw.githubusercontent.com/Saiyato/volumio-plugin-helper/master/volumio_install_from_zip.sh
 ```
 This will download the installation script.
+
 3. Execute the script (DO NOT USE sudo!) you've just downloaded using the below command:
 ```
 sh volumio_install_from_zip.sh Saiyato volumio-rotary-encoder-plugin
