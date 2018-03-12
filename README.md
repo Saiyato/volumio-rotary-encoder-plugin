@@ -21,6 +21,7 @@ You can use this install script for any plugin (if they are hosted separately), 
 sudo wget -O volumio_installer.sh https://raw.githubusercontent.com/Saiyato/volumio-rotary-encoder-plugin/master/volumio_installer.sh
 ```
 This will download the installation script.
+
 3. Execute the script (DO NOT USE sudo!) you've just downloaded using the below command:
 ```
 sh volumio_installer.sh
