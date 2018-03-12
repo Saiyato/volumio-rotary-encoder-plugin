@@ -1,6 +1,6 @@
 {
 	"name": "rotaryencoder",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "Provides a rotary encoder interface for use in Volumio 2.x",
 	"main": "index.js",
 	"scripts": {
