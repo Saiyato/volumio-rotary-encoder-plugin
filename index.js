@@ -323,7 +323,7 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 		self.firstEncoder.on('click', pressState => {	
 			var pressed = new Date();
 			if(self.config.get('enable_debug_logging'))
-					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released') + ' | '+ self.firstStopwatch.elapsedTicks ' ticks ago');
+					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
 				
 			if(pressState == 0)
 			{
