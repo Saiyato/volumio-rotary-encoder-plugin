@@ -9,6 +9,9 @@ const detentActionType = Object.freeze({ "NO_ACTION": 0, "VOLUME": 1, "PREVNEXT"
 const buttonActionType = Object.freeze({ "NO_ACTION": 0, "PLAY": 1, "PAUSE": 2, "PLAYPAUSE": 3, "STOP": 4, "REPEAT": 5, "RANDOM": 6, "CLEARQUEUE": 7, "MUTE": 8, "UNMUTE": 9, "TOGGLEMUTE": 10 });
 
 var rotaryEncoder = require('onoff-rotary');
+var Stopwatch = require("node-stopwatch").Stopwatch;
+var firstStopwatch;
+var secondStopwatch;
 
 module.exports = rotaryencoder;
 function rotaryencoder(context) {
@@ -260,6 +263,7 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 	try
 	{
 		self.firstEncoder = rotaryEncoder(self.config.get('first_encoder_CLK'), self.config.get('first_encoder_DT'), self.config.get('first_encoder_SW'), self.config.get('first_encoder_encoding'));
+		self.firstStopwatch = Stopwatch.create();
 	}
 	catch (ex)
 	{
@@ -321,15 +325,24 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 	if(self.config.get('first_encoder_SW') !== 0)
 	{
 		self.firstEncoder.on('click', pressState => {
+			if(self.firstStopwatch === undefined)
+				self.firstStopwatch.start();
+			
 			if(self.config.get('enable_debug_logging'))
-					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
+					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released') + ' | '+ self.firstStopwatch.elapsedTicks ' ticks ago');
 				
 			if(pressState == 0)
 			{
+				self.firstStopwatch.stop();
 				if(self.config.get('first_encoder_buttonActionType') == buttonActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
-				{
 					self.logger.info('[Rotary encoder] Encoder #1 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
-				}
+				
+				if(self.firstStopwatch.elapsedMilliseconds >= 2000)
+					self.logger.info('[Rotary encoder] Long press detected');
+				else
+					self.logger.info('[Rotary encoder] Normal press detected');
+				self.logger.info('[Rotary encoder] Time passed (in milliseconds): ' + self.firstStopwatch.elapsedMilliseconds);
+				
 				if(self.config.get('first_encoder_buttonActionType') != buttonActionType.TOGGLEMUTE)
 				{
 					//socket.emit(self.determineAPICommand(self.config.get('first_encoder_buttonActionType')));
