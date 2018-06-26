@@ -15,6 +15,8 @@ sh volumio_install_from_zip.sh Saiyato volumio-rotary-encoder-plugin
 ```
 You can use this install script for any plugin (if they are hosted separately), just add $1 = author and $2 = repository.
 
+Note: I've removed the node_modules dir, so it will take a bit longer to install.
+
 ### Lazy installation by downloading the whole git repo (takes longer to download)
 1. SSH into server
 2. Execute the below command:
@@ -42,7 +44,7 @@ The rest of the pins is self explanatory.
 3. Configure your encoder(s) using the pins you wrote down.
    * Configure CLK to 0 (zero) to disable the encoder
    * Configure SW to 0 (zero) to disable the (push) button on the encoder
-4. Choose your logic (KY040 or gray coding)
+4. Choose your logic (default (gray coding) or 4x speed, which decreases sensitivity by 25%)
 
 ![Alt text](/images/rotary_logic.png?raw=true "Rotary encoder")
 
@@ -52,6 +54,6 @@ Source: http://www.stuffaboutcode.com/2015/05/raspberry-pi-and-ky040-rotary-enco
 Should you encounter any problems with the encoder try the following:
 
 1. Add HW (hardware) debouncing; I've ordered 0.1uF capacitors to place between *CLK and GND* and/or *DT and GND*
-2. Try other rotary logic; I've tried to minimize the amount of double reads for my KY040 function, but the default *gray coding* should work too.
+2. Try other rotary logic; I've tried to minimize the amount of double reads for my KY040 encoder, now the default *gray coding* should work, otherwise try the 4x speed setting.
 
 I'd advise to use HW debouncing as most people seem to have solved their problems using that solution.
