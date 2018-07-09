@@ -433,28 +433,58 @@ rotaryencoder.prototype.constructSecondEncoder = function ()
 	
 	if(self.config.get('second_encoder_SW') !== 0)
 	{
-		this.secondEncoder.on('click', pressState => {
+		self.secondEncoder.on('click', pressState => {				
 			if(self.config.get('enable_debug_logging'))
-					self.logger.info('[Rotary encoder] Encoder #2 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
-				
-			if(pressState == 0)
+					self.logger.info('[Rotary encoder] Encoder #2 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));			
+			
+			var released;
+			if(pressState == 1)
 			{
-				if(self.config.get('second_encoder_buttonActionType') == buttonActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
+				released = new Date();
+				if((released - self.pressed) >= self.config.get('longPressThresholdInMilliseconds'))
 				{
-					self.logger.info('[Rotary encoder] Encoder #2 button pressed; press state = ' + (pressState == 0 ? 'pressed' : 'released'));
-				}				
-				if(self.config.get('second_encoder_buttonActionType') != buttonActionType.TOGGLEMUTE)
-				{
-					//socket.emit(self.determineAPICommand(self.config.get('second_encoder_buttonActionType')));
-					self.executeCommand(self.determineAPICommand(self.config.get('second_encoder_buttonActionType')));
+					if(self.config.get('second_encoder_longPressActionType') != buttonActionType.NO_ACTION)
+					{
+						if(self.config.get('second_encoder_longPressActionType') != buttonActionType.SHUTDOWN && self.config.get('second_encoder_longPressActionType') != buttonActionType.REBOOT)
+							self.executeCommand(self.determineAPICommand(self.config.get('second_encoder_longPressActionType')));
+						else
+						{
+							if(self.config.get('second_encoder_longPressActionType') == buttonActionType.SHUTDOWN)
+								self.commandRouter.shutdown();
+							else
+								self.commandRouter.reboot();
+						}
+					}
+
+					if(self.config.get('enable_debug_logging'))
+						self.logger.info('[Rotary encoder] Long press detected');
 				}
 				else
 				{
-					//socket.emit('volume', 'toggle');
-					self.executeCommand('volume toggle');
+					if(self.config.get('second_encoder_buttonActionType') != buttonActionType.NO_ACTION)
+					{
+						if(self.config.get('second_encoder_buttonActionType') != buttonActionType.SHUTDOWN && self.config.get('second_encoder_buttonActionType') != buttonActionType.REBOOT)
+							self.executeCommand(self.determineAPICommand(self.config.get('second_encoder_buttonActionType')));
+						else
+						{
+							if(self.config.get('second_encoder_buttonActionType') == buttonActionType.SHUTDOWN)
+								self.commandRouter.shutdown();
+							else
+								self.commandRouter.reboot();
+						}
+					}
+
+					if(self.config.get('enable_debug_logging'))					
+						self.logger.info('[Rotary encoder] Normal press detected');
 				}
 			}
+			else
+				self.pressed = new Date();
+			
+			if(self.config.get('enable_debug_logging') && released != undefined)
+				self.logger.info('[Rotary encoder] Time passed (in milliseconds): ' + (released - self.pressed));
 		});
+	}
 	}
 };
 
