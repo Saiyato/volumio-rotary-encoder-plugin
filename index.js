@@ -383,7 +383,6 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 				self.logger.info('[Rotary encoder] Time passed (in milliseconds): ' + (released - self.pressed));
 		});
 	}
-	
 };
 
 rotaryencoder.prototype.constructSecondEncoder = function ()
@@ -484,7 +483,6 @@ rotaryencoder.prototype.constructSecondEncoder = function ()
 			if(self.config.get('enable_debug_logging') && released != undefined)
 				self.logger.info('[Rotary encoder] Time passed (in milliseconds): ' + (released - self.pressed));
 		});
-	}
 	}
 };
 
