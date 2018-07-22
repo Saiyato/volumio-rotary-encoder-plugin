@@ -80,7 +80,9 @@ rotaryencoder.prototype.getUIConfig = function() {
 
     var lang_code = this.commandRouter.sharedVars.get('language_code');
 	var encodingOpts = fs.readJsonSync((__dirname + '/options/encodingOptions.json'),  'utf8', {throws: false});
+	self.logger.info('Loading settings page... 1');
 	var detentOpts = fs.readJsonSync((__dirname + '/options/detentOptions.json'),  'utf8', {throws: false});
+	self.logger.info('Loading settings page... 2');
 	var buttonOpts = fs.readJsonSync((__dirname + '/options/buttonOptions.json'),  'utf8', {throws: false});
 	
     self.commandRouter.i18nJson(__dirname+'/i18n/strings_'+lang_code+'.json',
