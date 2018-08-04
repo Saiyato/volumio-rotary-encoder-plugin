@@ -1,6 +1,10 @@
 # volumio-rotary-encoder-plugin
 Volumio 2 plugin to configure two simple rotary encoders.
 
+## Some notes
+1. A lot of HATs use GPIO 17, don't use it for the encoder when this is the case!
+2. The click requires pullup for that specific GPIO pin, the encoder will just compare the previous values and shouldn't require pullup or -down
+
 ## Quick start
 1. Connect your rotary encoder(s) and write down the pins you have used
 
