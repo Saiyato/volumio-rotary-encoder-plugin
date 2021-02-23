@@ -1,16 +1,16 @@
 'use strict';
 
-var libQ = require('kew');
-var fs=require('fs-extra');
 var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
+var fs=require('fs-extra');
+var libQ = require('kew');
+var rotaryEncoder = require('onoff-rotary');
 var io = require('socket.io-client');
-var socket = io.connect('http://localhost:3000');
 
 const detentActionType = Object.freeze({ "NO_ACTION": 0, "VOLUME": 1, "PREVNEXT": 2, "SEEK": 3, "SCROLL": 4 });
 const buttonActionType = Object.freeze({ "NO_ACTION": 0, "PLAY": 1, "PAUSE": 2, "PLAYPAUSE": 3, "STOP": 4, "REPEAT": 5, "RANDOM": 6, "CLEARQUEUE": 7, "MUTE": 8, "UNMUTE": 9, "TOGGLEMUTE": 10, "SHUTDOWN": 11, "REBOOT": 12, "RESTARTAPP": 13, "DUMPLOG": 14 });
 
-var rotaryEncoder = require('onoff-rotary');
+var socket = io.connect('http://localhost:3000');
 var pressed;
 
 module.exports = rotaryencoder;
@@ -271,17 +271,15 @@ rotaryencoder.prototype.determineAPICommand = function(buttonAction) {
 		case buttonActionType.UNMUTE:
 			return 'volume unmute';
 			break;
-		case buttonActionType.SHUTDOWN:
-			return 'volume unmute';
-			break;
-		case buttonActionType.REBOOT:
-			return 'volume unmute';
-			break;
 		case buttonActionType.RESTARTAPP:
 			return 'vrestart';
 			break;
 		case buttonActionType.DUMPLOG:
 			return 'logdump';
+			break;
+			
+		default:
+			return '';
 			break;
 	}
 };
@@ -305,7 +303,7 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 				self.logger.info('[Rotary encoder] Encoder #1 rotated right');
 							
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
-				self.logger.info('[Rotary encoder] Encoder #1 rotated right');
+				self.logger.info('[Rotary encoder] Encoder #1 rotated right, no action set');
 			
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.VOLUME)
 				self.executeCommand('volume plus');
@@ -322,7 +320,7 @@ rotaryencoder.prototype.constructFirstEncoder = function ()
 				self.logger.info('[Rotary encoder] Encoder #1 rotated left');
 			
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.NO_ACTION && !self.config.get('enable_debug_logging'))
-				self.logger.info('[Rotary encoder] Encoder #1 rotated left');
+				self.logger.info('[Rotary encoder] Encoder #1 rotated left, no action set');
 			
 			if(self.config.get('first_encoder_detentActionType') == detentActionType.VOLUME)
 				self.executeCommand('volume minus');
