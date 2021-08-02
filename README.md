@@ -32,3 +32,10 @@ Should you encounter any problems with the encoder try the following:
 2. Try other rotary logic; I've tried to minimize the amount of double reads for my KY040 encoder, now the default *gray coding* should work, otherwise try the 4x speed setting.
 
 I'd advise to use HW debouncing as most people seem to have solved their problems using that solution.
+
+## So what pins did I use with my Hifiberry AMP?
+GPIO15 -> CLK
+GPIO17 -> DT
+GPIO4 -> SW
+
+I also decreased the volume steps to 5. Go to Settings > Playback options > Volume options and set 'one click volume steps' to 5. Because the plugin uses the volumio controls (which are async), you might feel that it's not as snappy as you want it to be. If I have the time, I might look into this, but for now at least it works, eh ;)
